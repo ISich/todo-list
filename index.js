@@ -35,7 +35,28 @@ class Component {
 }
 
 class TodoList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [
+        { id: 1, text: "Сделать домашку" },
+        { id: 2, text: "Сделать практику" },
+        { id: 3, text: "Пойти домой" }
+      ]
+    };
+  }
+
   render() {
+    const { todos } = this.state;
+
+    const todoItems = todos.map(todo => (
+      createElement("li", { key: todo.id }, [
+        createElement("input", { type: "checkbox" }),
+        createElement("label", {}, todo.text),
+        createElement("button", {}, "🗑️")
+      ])
+    ));
+
     return createElement("div", { class: "todo-list" }, [
       createElement("h1", {}, "TODO List"),
       createElement("div", { class: "add-todo" }, [
@@ -46,23 +67,7 @@ class TodoList extends Component {
         }),
         createElement("button", { id: "add-btn" }, "+"),
       ]),
-      createElement("ul", { id: "todos" }, [
-        createElement("li", {}, [
-          createElement("input", { type: "checkbox" }),
-          createElement("label", {}, "Сделать домашку"),
-          createElement("button", {}, "🗑️")
-        ]),
-        createElement("li", {}, [
-          createElement("input", { type: "checkbox" }),
-          createElement("label", {}, "Сделать практику"),
-          createElement("button", {}, "🗑️")
-        ]),
-        createElement("li", {}, [
-          createElement("input", { type: "checkbox" }),
-          createElement("label", {}, "Пойти домой"),
-          createElement("button", {}, "🗑️")
-        ]),
-      ]),
+      createElement("ul", { id: "todos" }, todoItems),
     ]);
   }
 }
